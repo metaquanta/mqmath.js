@@ -17,6 +17,7 @@ for(var i = 0; i < n; i++) {
   pointset[i] = [Math.random(), Math.random()];
 }
 
+// get list of nested convex hulls.
 var hulls = (function f(hulls, points) {
   if(points.length() == 0) {
     return hulls;
@@ -38,10 +39,10 @@ for(var i=0; i<hulls.length; i++) {
   ctx.stroke();
 }*/
 
+// Start at outermost Hull, and connect, planarly.
 var path = hulls.reduce(function(path, hull, i, a){
   return join_hulls(a[i-1], a[i], path);
 });
-
 function join_hulls(hOuter, hInner, path) {
   var edges = hInner.edges();
   // get an edge in the outer cycle that is also on the path.
@@ -56,11 +57,14 @@ function join_hulls(hOuter, hInner, path) {
     }
   }
   for(var i = 0; i < edges.length; i++) {
+    // Find suitable inner edge.
     var a = new Edge(eOuter.u, edges[i].u), b = new Edge(eOuter.v, edges[i].v);
     var c = new Edge(eOuter.u, edges[i].v), d = new Edge(eOuter.v, edges[i].u);
     if((!a.crosses(hInner) && !b.crosses(hInner) && !a.crosses(b))) {
+      // We can join this way...
       return hInner.reverse().connect(edges[i].reverse(), path, eOuter);
     } else if (!c.crosses(hInner) && !d.crosses(hInner) && !c.crosses(d)) {
+      // ...or that way.
       return hInner.connect(edges[i], path, eOuter);
     }
   }
