@@ -156,7 +156,7 @@ Set.prototype.length = function() {
 
 // Extensive use of object equality is used concerned Vectors. They should not
 //  be created outside.
-//exports.Vector = Vector; 
+exports.Vector = Vector; 
 
 exports.Cycle = Cycle;
 exports.Matrix = Matrix;
