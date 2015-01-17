@@ -14,6 +14,15 @@ Vector.prototype.minus = function(v) {
 Vector.prototype.perp = function(v) {
   return new Vector(-this.y, this.x)
 }
+Vector.prototype.plus = function(v) {
+  return new Vector(this.x+v.x, this.y+v.y)
+}
+Vector.prototype.scale = function(s) { // s is a duck
+  return new Vector(this.x*s, this.y*s)
+}
+Vector.prototype.theta = function () {
+  return Math.atan2(this.y, this.x)
+}
 Vector.prototype.toString = function() {
   return "V("+this.x+", "+this.y+")";
 }
@@ -27,7 +36,7 @@ Matrix.prototype.invert = function() {
   return new Matrix(
     new Vector(detinv*m[1].y, -1*detinv*m[0].y),
     new Vector(-1*detinv*m[1].x, detinv*m[0].x));
-}  
+}
 Matrix.prototype.dot = function(u) {
   return new Vector(
     u.x*this.m[0].x+u.y*this.m[1].x, u.x*this.m[0].y+u.y*this.m[1].y);
@@ -45,7 +54,7 @@ Cycle.prototype.connect = function(e, cprime, eprime) {
         cprime.verts.slice(cprime.verts.indexOf(eprime.v))).concat(
         cprime.verts.slice(0, cprime.verts.indexOf(eprime.v)))
   );
-}  
+}
 Cycle.prototype.insert = function(e, p) {
   // break e, connect its endpoints to p
  return new Cycle(
@@ -113,21 +122,21 @@ function Set(s) { // s is 2-dim array of points, or array of Vectors.
 }
 Set.prototype.convexHull = function(hull) {
   // Alg I invented, I'm sure it's far from optimal.
-  
+
   // a triange is a triange.
   if(this.set.length <= 3) {return new Cycle(this.set);}
-  
+
   if(hull == undefined) {
     // initialize recursion.
     // seed the cycle with the two furthest points along x-axis.
     //   (they are on the hull)
     return this.convexHull(
       new Cycle(
-        [this.maxBy(function(v){return -v.x;}), 
+        [this.maxBy(function(v){return -v.x;}),
         this.maxBy(function(v){return v.x;})]));
   }
-  
-  // for each edge in the cycle, if any points are "above" it, 
+
+  // for each edge in the cycle, if any points are "above" it,
   //   add the "highest," perpendicularly. (it's on the hull)
   for(var i = 0; i < hull.edges().length; i++) {
     var n  = this.maxBy(function(v) {
@@ -138,7 +147,7 @@ Set.prototype.convexHull = function(hull) {
       return this.convexHull(hull.insert(hull.edges()[i], n));
     }
   }
-  
+
   // no points found outside the cycle, hull is complete.
   return hull;
 }
@@ -149,14 +158,14 @@ Set.prototype.maxBy = function(func) {
 }
 Set.prototype.subtract = function(s) {
   return new Set(this.set.filter(function(v){return s.set.indexOf(v) == -1}));
-}  
+}
 Set.prototype.length = function() {
   return this.set.length;
 }
 
 // Extensive use of object equality is used concerned Vectors. They should not
 //  be created outside.
-exports.Vector = Vector; 
+exports.Vector = Vector;
 
 exports.Cycle = Cycle;
 exports.Matrix = Matrix;
