@@ -1,4 +1,4 @@
-planar_hamiltonian_path
+mqmath.js
 =======================
 
 Do some math in javascript (node.js)
