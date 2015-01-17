@@ -1,5 +1,9 @@
 // © m@metaquanta.com 2013
 
+// This program finds and draws a Hamiltonian cycle for a random
+// pointset. While correct, this solution is overly complicated and
+// far from optimal.
+
 var Set = require('./mqmath.js').Set;
 var Edge = require('./mqmath.js').Edge;
 
@@ -85,4 +89,3 @@ var stream = canvas.pngStream();
 stream.on('data', function(chunk){
   out.write(chunk);
 });
-  
