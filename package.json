@@ -1,4 +1,12 @@
 {
+  "name": "mqmath",
+  "dependencies": {
+    "canvas": "1.1.6"
+  },
+  "devDependencies": {
+    "mocha": "x.x.x"
+  },
+  "engine": "node >= 0.10.35",
   "scripts": {
     "test": "mocha -R nyan"
   }
