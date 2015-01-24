@@ -97,7 +97,7 @@ Edge.prototype.crosses = function(e) {
   }
   // Algo I just invented since I had a convexHull() laying around.
   var h = (new Set([this.u, this.v, e.u, e.v])).convexHull();
-  // Hull will always be a triangle or rhombus, if one edge is on it, it can't
+  // Hull will always be a triangle or quadrilateral, if one edge is on it, it can't
   //  possibly cross the other.
   if(h.hasEdge(e) || h.hasEdge(this)) {
     return false;
